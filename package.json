@@ -6,6 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "cuid": "^2.1.8",
     "dotenv": "^8.2.0",
     "faunadb": "^4.1.1",
     "gatsby": "^3.0.1",
