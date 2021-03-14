@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Potta+One&family=Ranchers&display=swap");
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: "Rancher", cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

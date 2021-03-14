@@ -1,19 +1,14 @@
-import React from "react"
+import * as React from "react"
 import "./layout.styles.css"
+import HeaderComponent from "../header/header.component"
+import FooterComponent from "../footer/footer.component"
 
 const Layout = ({ children }) => {
   return (
     <>
-      <main>{children}</main>
-      <footer
-        style={{
-          marginTop: `2rem`,
-        }}
-      >
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
-      </footer>
+      <HeaderComponent />
+      <main className="crud-component__layout-main">{children}</main>
+      <FooterComponent />
     </>
   )
 }
