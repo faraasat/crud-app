@@ -1,15 +1,28 @@
-// Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
-const handler = async (event) => {
+const faunadb = require("faunadb"),
+  q = faunadb.query
+require("dotenv").config({
+  path: `.env`,
+})
+
+var adminClient = new faunadb.Client({
+  secret: process.env.FAUNADB_SECRET_KEY,
+})
+
+const handler = async event => {
   try {
-    const subject = event.queryStringParameters.name || 'World'
+    const result = await adminClient.query(
+      q.Map(
+        q.Paginate(q.Match(q.Index("todoId"))),
+        q.Lambda(x => q.Get(x))
+      )
+    )
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: `Hello ${subject}` }),
-      // // more keys you can return:
-      // headers: { "headerName": "headerValue", ... },
-      // isBase64Encoded: true,
+      body: JSON.stringify({ data: result.data }),
     }
   } catch (error) {
+    console.log(error)
     return { statusCode: 500, body: error.toString() }
   }
 }
