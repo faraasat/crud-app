@@ -16,7 +16,7 @@ const handler = async (event, context) => {
       q.Create(q.Collection("todoApp"), {
         data: {
           id: cuid(),
-          task: data.title,
+          task: data.todo,
           starred: false,
         },
       })
