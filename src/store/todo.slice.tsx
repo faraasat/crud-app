@@ -31,6 +31,7 @@ export const TodoSlice = createSlice({
         return da.ref["@ref"].id !== action.payload
       })
       state.allTodos = { data: [...abc] }
+      state.todos = { data: [...abc] }
     },
   },
   extraReducers: {
