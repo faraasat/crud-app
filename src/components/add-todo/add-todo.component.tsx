@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
@@ -13,6 +13,7 @@ import { useFormik } from "formik"
 
 const AddTodoComponent = () => {
   const [open, setOpen] = React.useState(false)
+  const [addTodoData, setAddTodoData] = useState<any>()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -20,6 +21,18 @@ const AddTodoComponent = () => {
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const addTodo = async (values: any) => {
+    try {
+      const res = await fetch("/.netlify/functions/create_todo", {
+        method: "POST",
+        body: JSON.stringify(values),
+      })
+      setAddTodoData(await res.json())
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const formik = useFormik({
@@ -36,17 +49,9 @@ const AddTodoComponent = () => {
     },
     onSubmit: (values, { setSubmitting, resetForm }) => {
       setSubmitting(true)
-      fetch("/.netlify/functions/create_todo", {
-        method: "POST",
-        body: JSON.stringify(values),
-      })
-        .then(response => {
-          response.json()
-        })
-        .then(data => {
-          console.log("Data => ", data)
-        })
+      addTodo(values)
       setSubmitting(false)
+      console.log(addTodoData)
       resetForm()
       setOpen(false)
     },

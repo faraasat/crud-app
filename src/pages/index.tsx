@@ -6,6 +6,9 @@ import SmallNavComponent from "../components/small-nav/small-nav.component"
 import TodoListComponent from "../components/todo-list/todo-list.component"
 
 const IndexPage = () => {
+
+  const [addState, setAddState] = React.useState('');
+
   return (
     <Layout>
       <SEO title="Index Page" />
