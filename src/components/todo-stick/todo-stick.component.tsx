@@ -12,12 +12,6 @@ const TodoStickComponent = ({ refObj }) => {
   const { ref, data } = refObj
   const [changeTodoData, setChangeTodoData] = useState<any>()
   const [openDetail, setOpenDetail] = useState<boolean>(false)
-  const [todoTask, setTodoTask] = useState<string>("")
-  const [valueDetail, setValueDetail] = useState({
-    task: "",
-    collection: "",
-    refId: "",
-  })
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -42,12 +36,6 @@ const TodoStickComponent = ({ refObj }) => {
   }
 
   const handleTodoUpdate = () => {
-    setValueDetail({
-      refId: ref["@ref"].id,
-      collection: ref["@ref"].collection["@ref"].id,
-      task: data.task,
-    })
-    setTodoTask(data.task)
     setOpenDetail(true)
   }
 
@@ -88,9 +76,13 @@ const TodoStickComponent = ({ refObj }) => {
         </div>
       </div>
       <UpdateTodoComponent
-        defaultVal={todoTask}
+        prev={data.task}
         openDetail={openDetail}
         setOpenDetail={setOpenDetail}
+        refObj={{
+          refId: ref["@ref"].id,
+          collection: ref["@ref"].collection["@ref"].id,
+        }}
       />
     </>
   )

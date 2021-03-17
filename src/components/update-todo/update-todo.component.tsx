@@ -13,8 +13,8 @@ import { useFormik } from "formik"
 import { useDispatch } from "react-redux"
 import { refreshComponent } from "../../store/todo.slice"
 
-const UpdateTodoComponent = ({ defaultVal, openDetail, setOpenDetail }) => {
-  const [addTodoData, setAddTodoData] = useState<any>(defaultVal)
+const UpdateTodoComponent = ({ prev, openDetail, setOpenDetail, refObj }) => {
+  const [addTodoData, setAddTodoData] = useState<any>()
   const dispatch = useDispatch()
 
   const handleClose = () => {
@@ -26,29 +26,27 @@ const UpdateTodoComponent = ({ defaultVal, openDetail, setOpenDetail }) => {
   }, [addTodoData])
 
   const addTodo = async (values: any) => {
-    // if (addTodoData.todo === values || addTodoData.todo === "" || addTodoData.todo.length <= 3)
-    //   return
-    console.log(values)
-    console.log(openDetail)
-    console.log(addTodoData)
-    console.log(defaultVal)
-    // try {
-    //   const res = await fetch("/.netlify/functions/create_todo", {
-    //     method: "POST",
-    //     body: JSON.stringify(values),
-    //   })
-    //   setAddTodoData(await res.json())
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    if (prev === values.todo || prev === "" || prev.length <= 3) return
+    try {
+      const res = await fetch("/.netlify/functions/update_todo", {
+        method: "POST",
+        body: JSON.stringify({
+          task: values.todo,
+          refId: refObj.refId,
+          collection: refObj.collection,
+        }),
+      })
+      setAddTodoData(await res.json())
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const formik = useFormik({
     initialValues: {
-      todo: defaultVal,
+      todo: prev,
     },
     validate: (values: any) => {
-      console.log(values)
       const errors = { todo: "" }
       if (!values.todo) {
         errors.todo = "Required"
@@ -75,10 +73,10 @@ const UpdateTodoComponent = ({ defaultVal, openDetail, setOpenDetail }) => {
         aria-labelledby="form-dialog-title"
       >
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle id="form-dialog-title">Add a Todo</DialogTitle>
+          <DialogTitle id="form-dialog-title">Update a Todo</DialogTitle>
           <DialogContent className="crud-component__update-todo__dialog-content">
             <DialogContentText>
-              Write the name of todo and click Add Todo to list your todo so
+              Write the name of todo and click Update Todo to list your todo so
               that you can remember What <b>Todo</b>?
             </DialogContentText>
             <TextField
@@ -111,7 +109,7 @@ const UpdateTodoComponent = ({ defaultVal, openDetail, setOpenDetail }) => {
               disabled={formik.isSubmitting}
             >
               <AddCircleIcon />
-              &nbsp;Add Todo
+              &nbsp;Update Todo
             </button>
           </DialogActions>
         </form>
