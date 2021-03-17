@@ -19,33 +19,29 @@ const TodoListComponent = () => {
   return (
     <>
       <div></div>
-      {todoLoading || todoData.length === 0 ? (
+      {todoLoading && todoData.data.length === 0 ? (
         <>
           <TodoStickLoadingComponent />
           <TodoStickLoadingComponent />
           <TodoStickLoadingComponent />
           <TodoStickLoadingComponent />
         </>
+      ) : todoData.data.length !== 0 ? (
+        todoData.data.map((todoData: any) => {
+          return (
+            <span key={todoData.id}>
+              <TodoStickComponent key={todoData.id} refObj={todoData} />
+            </span>
+          )
+        })
       ) : (
         !todoLoading &&
-        (todoData.data.length !== 0 ? (
-          todoData.data.map((todoData: any) => {
-            return (
-              <span key={todoData.id}>
-                <TodoStickComponent
-                  key={todoData.id}
-                  refObj={todoData}
-                  loading={todoData}
-                />
-              </span>
-            )
-          })
-        ) : (
+        todoData.data.length === 0 && (
           <div className="crud-component__todo-list__nothing">
             <MoodBadIcon />
             Ooops! Nothing To show...
           </div>
-        ))
+        )
       )}
     </>
   )
