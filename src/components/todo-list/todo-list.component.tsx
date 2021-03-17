@@ -1,28 +1,22 @@
 import React from "react"
 import TodoStickLoadingComponent from "../todo-stick-loading/todo-stick-loading.component"
 import TodoStickComponent from "../todo-stick/todo-stick.component"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchTodos, selectTodoData } from "../../store/todo.slice"
 
 const TodoListComponent = () => {
-  const [todoData, setTodoData] = React.useState<any>()
-  const [todoLoading, setTodoLoading] = React.useState<any>(false)
+  const dispatch = useDispatch()
+  const { todoData, updateId, todoLoading } = useSelector(selectTodoData)
 
   React.useEffect(() => {
-    const getData = async () => {
-      try {
-        setTodoLoading(true)
-        const res = await fetch("/.netlify/functions/get_todos")
-        setTodoData(await res.json())
-        setTodoLoading(false)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getData()
-  }, [])
+    dispatch(fetchTodos())
+    console.log(updateId)
+  }, [updateId])
 
   return (
     <>
-      {todoLoading ? (
+      <div></div>
+      {todoLoading || todoData.length === 0 ? (
         <>
           <TodoStickLoadingComponent />
           <TodoStickLoadingComponent />
@@ -30,7 +24,7 @@ const TodoListComponent = () => {
           <TodoStickLoadingComponent />
         </>
       ) : (
-        todoData &&
+        todoData.length !== 0 &&
         todoData.data.map((todoData: any) => {
           return (
             <span key={todoData.id}>

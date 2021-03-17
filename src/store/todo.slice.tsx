@@ -13,7 +13,9 @@ export const TodoSlice = createSlice({
   initialState: { todos: [], updateId: "", todoLoading: false },
   reducers: {
     searchTodos: (state, action) => {},
-    refreshComponent: (state, action) => {},
+    refreshComponent: (state, action) => {
+      state.updateId = action.payload
+    },
   },
   extraReducers: {
     [fetchTodos.fulfilled]: (state, action) => {
@@ -34,8 +36,8 @@ export const TodoSlice = createSlice({
 
 export const { searchTodos, refreshComponent } = TodoSlice.actions
 export const selectTodoData = (state: any) => ({
-  todoData: state.todoSlice.todos,
-  updateId: state.todoSlice.updateId,
-  todoLoading: state.todoSlice.todoLoading,
+  todoData: state.todoReducer.todos,
+  updateId: state.todoReducer.updateId,
+  todoLoading: state.todoReducer.todoLoading,
 })
 export const TodoSliceReducer = TodoSlice.reducer
