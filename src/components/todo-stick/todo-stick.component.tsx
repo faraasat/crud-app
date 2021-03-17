@@ -17,7 +17,6 @@ const TodoStickComponent = ({ refObj }) => {
   }, [changeTodoData])
 
   const handleTodoDelete = async () => {
-    console.log("Delete")
     const values = {
       refId: ref["@ref"].id,
       collection: ref["@ref"].collection["@ref"].id,
@@ -36,10 +35,10 @@ const TodoStickComponent = ({ refObj }) => {
 
   const handleTodoUpdate = () => {
     console.log("Update")
-    console.log({
+    const values = {
       refId: ref["@ref"].id,
       collection: ref["@ref"].collection["@ref"].id,
-    })
+    }
   }
 
   return (
