@@ -1,9 +1,12 @@
 import React from "react"
 import "./search-todo.styles.css"
+import { searchTodos } from "../../store/todo.slice"
+import { useDispatch } from "react-redux"
 
 const SearchTodoComponent = () => {
+  const dispatch = useDispatch()
   const handleSearchChange = (event: any) => {
-    console.log(event.target.value)
+    dispatch(searchTodos(event.target.value))
   }
 
   return (

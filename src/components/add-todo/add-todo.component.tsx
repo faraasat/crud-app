@@ -10,8 +10,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle"
 import CancelIcon from "@material-ui/icons/Cancel"
 import "./add-todo.styles.css"
 import { useFormik } from "formik"
-import { useDispatch, useSelector } from "react-redux"
-import { selectTodoData, refreshComponent } from "../../store/todo.slice"
+import { useDispatch } from "react-redux"
+import { refreshComponent } from "../../store/todo.slice"
 
 const AddTodoComponent = () => {
   const [open, setOpen] = React.useState(false)

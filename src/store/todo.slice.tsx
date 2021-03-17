@@ -10,9 +10,19 @@ export const fetchTodos: any = createAsyncThunk(
 
 export const TodoSlice = createSlice({
   name: "todoSlice",
-  initialState: { todos: [], updateId: "", todoLoading: false },
+  initialState: {
+    todos: { data: [] },
+    updateId: "",
+    todoLoading: false,
+    allTodos: { data: [] },
+  },
   reducers: {
-    searchTodos: (state, action) => {},
+    searchTodos: (state, action) => {
+      const abc = state.allTodos.data.filter(da => {
+        return da.data.task.toLowerCase().includes(action.payload.toLowerCase())
+      })
+      state.todos = { data: [...abc] }
+    },
     refreshComponent: (state, action) => {
       state.updateId = action.payload
     },
@@ -21,6 +31,7 @@ export const TodoSlice = createSlice({
     [fetchTodos.fulfilled]: (state, action) => {
       console.log(state, action)
       state.todos = action.payload
+      state.allTodos = action.payload
       state.todoLoading = false
     },
     [fetchTodos.reject]: (state, action) => {
@@ -37,6 +48,7 @@ export const TodoSlice = createSlice({
 export const { searchTodos, refreshComponent } = TodoSlice.actions
 export const selectTodoData = (state: any) => ({
   todoData: state.todoReducer.todos,
+  allTodos: state.todoReducer.allTodos,
   updateId: state.todoReducer.updateId,
   todoLoading: state.todoReducer.todoLoading,
 })
