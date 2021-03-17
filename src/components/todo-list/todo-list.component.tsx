@@ -11,6 +11,7 @@ const TodoListComponent = () => {
   React.useEffect(() => {
     dispatch(fetchTodos())
     console.log(updateId)
+    console.log(todoData)
   }, [updateId])
 
   return (

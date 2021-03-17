@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
 import Dialog from "@material-ui/core/Dialog"
@@ -10,10 +10,13 @@ import AddCircleIcon from "@material-ui/icons/AddCircle"
 import CancelIcon from "@material-ui/icons/Cancel"
 import "./add-todo.styles.css"
 import { useFormik } from "formik"
+import { useDispatch, useSelector } from "react-redux"
+import { selectTodoData, refreshComponent } from "../../store/todo.slice"
 
 const AddTodoComponent = () => {
   const [open, setOpen] = React.useState(false)
   const [addTodoData, setAddTodoData] = useState<any>()
+  const dispatch = useDispatch()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -22,6 +25,10 @@ const AddTodoComponent = () => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  useEffect(() => {
+    dispatch(refreshComponent(addTodoData))
+  }, [addTodoData])
 
   const addTodo = async (values: any) => {
     try {
@@ -51,7 +58,6 @@ const AddTodoComponent = () => {
       setSubmitting(true)
       addTodo(values)
       setSubmitting(false)
-      console.log(addTodoData)
       resetForm()
       setOpen(false)
     },
