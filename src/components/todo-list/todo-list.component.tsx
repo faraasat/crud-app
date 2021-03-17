@@ -1,4 +1,5 @@
 import React from "react"
+import TodoStickLoadingComponent from "../todo-stick-loading/todo-stick-loading.component"
 import TodoStickComponent from "../todo-stick/todo-stick.component"
 
 const TodoListComponent = () => {
@@ -21,10 +22,27 @@ const TodoListComponent = () => {
 
   return (
     <>
-      {todoData &&
-        todoData.data.map(todoData => {
-          return <TodoStickComponent key={todoData.id} refObj={todoData} loading={todoData} />
-        })}
+      {todoLoading ? (
+        <>
+          <TodoStickLoadingComponent />
+          <TodoStickLoadingComponent />
+          <TodoStickLoadingComponent />
+          <TodoStickLoadingComponent />
+        </>
+      ) : (
+        todoData &&
+        todoData.data.map((todoData: any) => {
+          return (
+            <span key={todoData.id}>
+              <TodoStickComponent
+                key={todoData.id}
+                refObj={todoData}
+                loading={todoData}
+              />
+            </span>
+          )
+        })
+      )}
     </>
   )
 }
