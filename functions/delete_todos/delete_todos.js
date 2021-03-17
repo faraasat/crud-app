@@ -3,7 +3,6 @@ const faunadb = require("faunadb"),
 require("dotenv").config({
   path: `.env`,
 })
-const cuid = require("cuid")
 
 var adminClient = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET_KEY,
