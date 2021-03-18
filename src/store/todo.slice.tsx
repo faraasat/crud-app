@@ -33,10 +33,21 @@ export const TodoSlice = createSlice({
       state.allTodos = { data: [...abc] }
       state.todos = { data: [...abc] }
     },
+    pinTodo: (state, action) => {
+      state.todos = {
+        data: state.allTodos.data.map(datum => {
+          if (datum.data.id === action.payload) {
+            var temp = Object.assign({}, datum)
+            temp.data.starred = !temp.data.starred
+            return temp
+          }
+          return datum
+        }),
+      }
+    },
   },
   extraReducers: {
     [fetchTodos.fulfilled]: (state, action) => {
-      console.log(state, action)
       state.todos = action.payload
       state.allTodos = action.payload
       state.todoLoading = false
@@ -46,13 +57,17 @@ export const TodoSlice = createSlice({
       state.todoLoading = false
     },
     [fetchTodos.pending]: (state, action) => {
-      console.log("fetchStoreData Pending")
       state.todoLoading = true
     },
   },
 })
 
-export const { searchTodos, refreshComponent, deleteTodo } = TodoSlice.actions
+export const {
+  searchTodos,
+  refreshComponent,
+  deleteTodo,
+  pinTodo,
+} = TodoSlice.actions
 export const selectTodoData = (state: any) => ({
   todoData: state.todoReducer.todos,
   allTodos: state.todoReducer.allTodos,

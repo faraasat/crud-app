@@ -11,12 +11,9 @@ var adminClient = new faunadb.Client({
 const handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body)
-    console.log(data)
     const result = await adminClient.query(
       q.Delete(q.Ref(q.Collection(data.collection), data.refId))
     )
-
-    console.log(result)
 
     return {
       statusCode: 200,

@@ -11,14 +11,11 @@ var adminClient = new faunadb.Client({
 const handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body)
-    console.log(data)
     const result = await adminClient.query(
       q.Update(q.Ref(q.Collection(data.collection), data.refId), {
         data: { task: data.task },
       })
     )
-
-    console.log(result)
 
     return {
       statusCode: 200,

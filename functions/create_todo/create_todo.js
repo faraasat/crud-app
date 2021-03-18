@@ -22,8 +22,6 @@ const handler = async (event, context) => {
       })
     )
 
-    console.log(result)
-
     return {
       statusCode: 200,
       body: JSON.stringify({ data: result.ref.id }),
